@@ -10,7 +10,7 @@ $pageDescription = $pageDescription ?? 'Administracion de facturas, bancos e inv
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="<?= htmlspecialchars($pageDescription) ?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="shortcut icon" href="assets/images/favicon.ico">
+    <link rel="shortcut icon" href="<?= htmlspecialchars(SesionEmpresa::logoActual()) ?>">
     <link href="assets/css/vendor.min.css" rel="stylesheet" type="text/css">
     <link href="assets/css/app.min.css" rel="stylesheet" type="text/css">
     <script src="assets/js/config.min.js"></script>
@@ -31,6 +31,13 @@ $pageDescription = $pageDescription ?? 'Administracion de facturas, bancos e inv
         .erp-scan-frame::before { top: 50%; }
         .erp-scan-frame::after { top: calc(50% + 4px); opacity: .25; }
         .nav-text { white-space: nowrap; }
+        .main-logo-box .logo-box { height: var(--bs-topbar-height); display: flex; align-items: center; }
+        .main-logo-box .logo-box > a { height: 100%; align-items: center; }
+        .main-logo-box .logo-box > a.logo-dark { display: flex; }
+        .main-logo-box .erp-company-logo { object-fit: contain; object-position: left center; background: #fff; border-radius: 7px; padding: 2px; }
+        .main-logo-box .erp-company-logo.logo-lg { height: calc(var(--bs-topbar-height) - 12px) !important; width: auto; max-width: 150px; margin-left: 0; }
+        .main-logo-box .erp-company-logo.logo-sm { height: calc(var(--bs-topbar-height) - 18px) !important; width: auto; max-width: 52px; }
+        html[data-bs-theme=dark] .main-logo-box .logo-box > a.logo-light, .sidebar-dark .main-logo-box .logo-box > a.logo-light { display: flex; }
         @media (max-width: 575.98px) { .page-content { padding-left: 12px; padding-right: 12px; } }
     </style>
 </head>

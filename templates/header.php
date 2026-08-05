@@ -10,6 +10,11 @@
                 </form>
             </div>
             <div class="d-flex align-items-center gap-2 ms-auto">
+                <div class="topbar-item d-none d-sm-block">
+                    <a href="empresas-s.php" class="btn btn-sm btn-soft-primary" title="Cambiar empresa actual">
+                        <i data-lucide="building-2" class="fs-16 me-1"></i>Empresa <?= SesionEmpresa::empresaActual() ?>
+                    </a>
+                </div>
                 <div class="topbar-item">
                     <button type="button" class="topbar-button fs-24" id="light-dark-mode" aria-label="Cambiar tema">
                         <i data-lucide="moon" class="light-mode"></i>
@@ -37,6 +42,7 @@
                         </span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end">
+                        <a class="dropdown-item" href="empresas-s.php"><i data-lucide="building-2" class="fs-16 text-muted align-middle me-2"></i>Cambiar empresa</a>
                         <a class="dropdown-item" href="#"><i data-lucide="user" class="fs-16 text-muted align-middle me-2"></i>Mi perfil</a>
                         <a class="dropdown-item" href="#"><i data-lucide="settings" class="fs-16 text-muted align-middle me-2"></i>Configuracion</a>
                         <div class="dropdown-divider"></div>

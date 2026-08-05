@@ -1,19 +1,28 @@
 <?php
 $activeModule = $activeModule ?? '';
 $activePage = $activePage ?? '';
+$activeBankId = $activeBankId ?? 0;
 $isActive = static fn(string $page): string => $activePage === $page ? ' active' : '';
 $isOpen = static fn(string $module): string => $activeModule === $module ? ' show' : '';
+if (!isset($sidebarBanks)) {
+    try {
+        require_once dirname(__DIR__) . '/api/BancoAdministrador.php';
+        $sidebarBanks = (new BancoAdministrador(Conexion::obtener()))->listarBancos(SesionEmpresa::empresaActual());
+    } catch (Throwable $error) {
+        $sidebarBanks = [];
+    }
+}
 ?>
 <div class="main-nav">
     <div class="d-flex justify-content-between main-logo-box">
         <div class="logo-box">
             <a href="facturas-pendientes.php" class="logo-dark">
-                <img src="assets/images/logo-sm.png" class="logo-sm" alt="ERP">
-                <img src="assets/images/logo-dark.png" class="logo-lg" alt="ERP Dinamico">
+                <img src="<?= htmlspecialchars(SesionEmpresa::logoActual()) ?>" class="logo-sm erp-company-logo" alt="Logo de la empresa actual">
+                <img src="<?= htmlspecialchars(SesionEmpresa::logoActual()) ?>" class="logo-lg erp-company-logo" alt="Logo de la empresa actual">
             </a>
             <a href="facturas-pendientes.php" class="logo-light">
-                <img src="assets/images/logo-sm.png" class="logo-sm" alt="ERP">
-                <img src="assets/images/logo-white.png" class="logo-lg" alt="ERP Dinamico">
+                <img src="<?= htmlspecialchars(SesionEmpresa::logoActual()) ?>" class="logo-sm erp-company-logo" alt="Logo de la empresa actual">
+                <img src="<?= htmlspecialchars(SesionEmpresa::logoActual()) ?>" class="logo-lg erp-company-logo" alt="Logo de la empresa actual">
             </a>
         </div>
         <button type="button" class="btn btn-link d-flex button-sm-hover button-toggle-menu" aria-label="Alternar menu">
@@ -44,9 +53,10 @@ $isOpen = static fn(string $module): string => $activeModule === $module ? ' sho
                 </a>
                 <div class="collapse<?= $isOpen('pagos') ?>" id="sidebarPagos">
                     <ul class="sub-menu-nav">
-                        <li class="sub-menu-item"><a class="sub-menu-link<?= $isActive('banco-1') ?>" href="banco-1.php">Banco 1</a></li>
-                        <li class="sub-menu-item"><a class="sub-menu-link<?= $isActive('banco-2') ?>" href="banco-2.php">Banco 2</a></li>
-                        <li class="sub-menu-item"><a class="sub-menu-link<?= $isActive('banco-3') ?>" href="banco-3.php">Banco 3</a></li>
+                        <?php foreach ($sidebarBanks as $sidebarBank): ?>
+                            <li class="sub-menu-item"><a class="sub-menu-link<?= (int) $activeBankId === (int) $sidebarBank['id'] ? ' active' : '' ?>" href="banco.php?id=<?= (int) $sidebarBank['id'] ?>"><?= htmlspecialchars(trim((string) $sidebarBank['nombre_corto']) ?: (string) $sidebarBank['banco']) ?></a></li>
+                        <?php endforeach; ?>
+                        <?php if ($sidebarBanks === []): ?><li class="sub-menu-item"><span class="sub-menu-link text-muted">Sin cuentas bancarias</span></li><?php endif; ?>
                     </ul>
                 </div>
             </li>

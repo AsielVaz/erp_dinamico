@@ -1,4 +1,14 @@
-<?php require_once dirname(__DIR__) . '/api/SesionEmpresa.php'; SesionEmpresa::iniciar(); require __DIR__ . '/head.php'; ?>
+<?php
+require_once dirname(__DIR__) . '/api/SesionEmpresa.php';
+require_once dirname(__DIR__) . '/api/Conexion.php';
+SesionEmpresa::iniciar();
+try {
+    SesionEmpresa::sincronizarContexto(Conexion::obtener());
+} catch (Throwable $error) {
+    // La interfaz conserva el logo local de respaldo si el recurso no esta disponible.
+}
+require __DIR__ . '/head.php';
+?>
 <?php require __DIR__ . '/sidebar.php'; ?>
 <?php require __DIR__ . '/header.php'; ?>
 <div class="page-container">
